@@ -18,6 +18,7 @@ class MarvelService {
 
   _transformCharacters = (char) => {
     return {
+      id: char.id,
       name: char.name,
       description: char.description ? char.description : 'There is no description about this character',
       thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
