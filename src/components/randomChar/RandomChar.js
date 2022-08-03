@@ -52,7 +52,7 @@ class RandomChar extends Component {
         const spinner = loading ? <Spinner/> : null;
         const content = !(loading || error) ? <View char={char}/> : null
 
-        
+
         return (
             <div className="randomchar">
                 {errorMessage}
@@ -79,9 +79,15 @@ class RandomChar extends Component {
 
 const View = ({char}) => {
     const {name, description, thumbnail, homepage, wiki} = char;
+    let img;
+    if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+       img = <img src={thumbnail} alt="Random character" className="randomchar__img_not_found"/>
+    } else {
+        img = <img src={thumbnail} alt="Random character" className="randomchar__img"/>
+    }
     return (
         <div className="randomchar__block">
-        <img src={thumbnail} alt="Random character" className="randomchar__img"/>
+        {img}
         <div className="randomchar__info">
             <p className="randomchar__name">{name}</p>
             <p className="randomchar__descr">
