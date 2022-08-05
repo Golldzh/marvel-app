@@ -40,18 +40,18 @@ class CharList extends Component {
 
     render() {
         const {chars, loading, error} = this.state;
-        const elements = chars.map(item => {
+        const items = chars.map(item => {
             const{id, ...itemProps} = item;
             return (
               <CharListItem 
-                key={id}
+                key={item.id}
                 {...itemProps}
-                />
+                onCharSelected={() => {this.props.onCharSelected(item.id)}}/>
             )
         });
         const errorMessage = error ? <ErrorMessage/> : null;
         const spinner = loading ? <Spinner/> : null;
-        const content = !(loading || error) ? elements : null;
+        const content = !(loading || error) ? items : null;
         return (
             <div className="char__list">
                 {errorMessage}
