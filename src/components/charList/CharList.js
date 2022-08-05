@@ -2,7 +2,7 @@ import { Component } from 'react/cjs/react.production.min';
 
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import CharListItem from '../CharListItem.js/CharLIstItem';
+import CharListItem from '../CharListItem/CharLIstItem';
 import MarvelService from '../../services/MarvelService';
 
 import './charList.scss';
