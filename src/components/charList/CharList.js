@@ -11,24 +11,60 @@ class CharList extends Component {
     state = {
         chars: [],
         loading: true,
-        error: false
+        error: false,
+        newItemLoading: false,
+        offset: 220,
+        charEnded: false
     }
     marvelService = new MarvelService();
-    componentDidMount() {
-        this.newChar()
-    }
+    
 
-    newChar = () => {
-        this.marvelService
-            .getAllCharacters()
+    componentDidMount() {
+        this.onRequest();
+        window.addEventListener("scroll", this.onScroll);
+    }
+   
+    componentWillUnmount() {
+      window.removeEventListener("scroll", this.onScroll);
+    }
+   
+    onScroll = () => {
+      if (this.state.newItemLoading) return;
+      if (this.state.charEnded)
+        window.removeEventListener("scroll", this.onScroll);
+   
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        this.onCharListLoading();
+        this.onRequest(this.state.offset);
+      }
+    };
+
+    onRequest = (offset) => {
+        this.onCharListLoading();
+        this.marvelService.getAllCharacters(offset)
             .then(this.onCharLoaded)
             .catch(this.onError)
     }
-    onCharLoaded = (chars) => {
+
+    onCharListLoading = () => {
         this.setState({
-            chars,
-            loading: false
+            newItemLoading: true
         })
+    }
+
+    onCharLoaded = (newChars) => {
+
+        let ended = false
+        if(newChars.length < 9) {
+            ended =  true;
+        }
+        this.setState(({offset, chars}) => ({
+            chars: [...chars, ...newChars],
+            loading: false,
+            newItemLoading: false,
+            offset: offset + 9,
+            charEnded: ended
+        }))
     }
     onError = () => {
         this.setState({
@@ -39,7 +75,7 @@ class CharList extends Component {
 
 
     render() {
-        const {chars, loading, error} = this.state;
+        const {chars, loading, error, offset, newItemLoading,charEnded} = this.state;
         const items = chars.map(item => {
             const{id, ...itemProps} = item;
             return (
@@ -59,7 +95,10 @@ class CharList extends Component {
                 <ul className="char__grid">
                     {content}
                 </ul>
-                <button className="button button__main button__long">
+                <button className="button button__main button__long"
+                        disabled={newItemLoading}
+                        style={{'display': charEnded ? 'none' : 'block'}}
+                        onClick={() => this.onRequest(offset)}>
                     <div className="inner">load more</div>
                 </button>
             </div>
