@@ -2,7 +2,7 @@ import { Component } from 'react/cjs/react.production.min';
 import PropTypes from 'prop-types';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import CharListItem from '../CharListItem/CharLIstItem';
+import CharListItem from '../CharListItem/CharListItem';
 import MarvelService from '../../services/MarvelService';
 
 import './charList.scss';
@@ -72,6 +72,8 @@ class CharList extends Component {
             loading: false
         })
     }
+
+    on
 
 
     render() {

@@ -9,7 +9,8 @@ const CharListItem = (props) => {
   }
   return (
     <li className="char__item"
-        onClick={onCharSelected}>
+        onFocus={onCharSelected}
+        tabIndex={0}>
         {img}
         <div className="char__name">{name}</div>
     </li>
